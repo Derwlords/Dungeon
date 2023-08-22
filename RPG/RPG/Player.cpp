@@ -216,34 +216,55 @@ void Player::BufforDebuff( BaseCharacter& Attacked)
 {
 	for (int i = 0; i < 5; i++)
 	{
-		std::cout << ClassSpells[i].SpellName << " " << i + 1 << std::endl;
+		if (ClassSpells[i].CooldownTimer > 0)
+		{
+			std::cout << "Spell on cooldown " << ClassSpells[i].CooldownTimer << " more rounds" << std::endl;
+		}
+		else
+		{
+			std::cout << ClassSpells[i].SpellName << " " << i + 1 << std::endl;
+		}
+		
 
 	}
 	int SpellNumber;
+	bool SpellCD;
 	do 
 	{
+		SpellCD = true;
 		std::cout << "\nPress 1 to 5: ";
 		
 		std::cin >> SpellNumber;
-	} while (SpellNumber < 1 || SpellNumber > 5);
+		SpellNumber--;
+		if (ClassSpells[SpellNumber].CooldownTimer == 0 )
+		{
+			SpellCD = false;
+		}
+	} while (SpellNumber < 0 || SpellNumber > 4 || SpellCD );
 	
-	SpellNumber--;
+	
 	if (ClassSpells[SpellNumber].Self)
 	{
 		switch (ClassSpells[SpellNumber].SpellType)
 		{
 		case eDamageUp:
+			TemporaryDamage = Damage;
 			Damage *= ClassSpells[SpellNumber].BufforDebaf;
+			TemporaryDamage = Damage - TemporaryDamage;
 			ClassSpells[SpellNumber].CooldownTimer = ClassSpells[SpellNumber].Cooldown;
 			ClassSpells[SpellNumber].BufforDebuffStop = ClassSpells[SpellNumber].DurBufforDebuff;
 			break;
 		case eDoodgeUp:
+			TemporaryDoodge = DoodgeChance;
 			DoodgeChance *= ClassSpells[SpellNumber].BufforDebaf;
+			TemporaryDoodge = DoodgeChance - TemporaryDoodge;
 			ClassSpells[SpellNumber].CooldownTimer = ClassSpells[SpellNumber].Cooldown;
 			ClassSpells[SpellNumber].BufforDebuffStop = ClassSpells[SpellNumber].DurBufforDebuff;
 			break;
 		case eHeal:
+			TemporaryHP = HP;
 			HP *= ClassSpells[SpellNumber].BufforDebaf;
+			TemporaryHP = HP - TemporaryHP;
 			ClassSpells[SpellNumber].CooldownTimer = ClassSpells[SpellNumber].Cooldown;
 			ClassSpells[SpellNumber].BufforDebuffStop = ClassSpells[SpellNumber].DurBufforDebuff;
 			break;
@@ -263,13 +284,13 @@ void Player::StopBufforDebuff(Spells& Spell, BaseCharacter& Attacked)
 		switch (ClassSpells[i].SpellType)
 		{
 		case eDamageUp:
-			Damage /= ClassSpells[i].BufforDebaf;
+			Damage -= TemporaryDamage ;
 			break;
 		case eDoodgeUp:
-			DoodgeChance /= ClassSpells[i].BufforDebaf;
+			DoodgeChance -= TemporaryDoodge;
 			break;
 		case eHeal:
-			HP /= ClassSpells[i].BufforDebaf;
+			HP -= TemporaryHP;
 			break;
 
 		}
@@ -296,7 +317,10 @@ void Player::Fight(BaseCharacter& Attacked)
 				StopBufforDebuff(ClassSpells[i],Attacked);
 			}
 		}
-		
+		if (ClassSpells[i].CooldownTimer > 0)
+		{
+			ClassSpells[i].CooldownTimer--;
+		}
 	}
 	if (Mana < MaxMana)
 	{

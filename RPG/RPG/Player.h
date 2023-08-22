@@ -47,5 +47,7 @@ private:
 	
 	
 
-	
+	int TemporaryDamage;
+	int TemporaryDoodge;
+	int TemporaryHP;
 };
