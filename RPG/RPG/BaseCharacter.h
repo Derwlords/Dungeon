@@ -16,6 +16,10 @@ public:
 	virtual void AttackedSpell(Spells& Spell, BaseCharacter& Attacked) = 0;
 	int GetGold() { return Gold; }
 	bool Dead;
+	void SetHealth(int Damage) { HP -= Damage; }
+	int GetHealth() { return HP; }
+	std::string GetName() { return Name; }
+	char GetSymbol() { return symbol; }
 protected:
 	std::string Name;
 	char symbol;

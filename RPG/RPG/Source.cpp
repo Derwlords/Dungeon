@@ -20,56 +20,17 @@ void main()
 			{
 			case 'a':
 				Player.Fight(enemy);
-				if (enemy.GetStatus())
-				{
-					system("cls");
-					Player.LvlUp();
-					Player.PlayerGold(enemy.GetGold());
-					break;
-				}
-				if (Player.Doodge() == false)
-				{
-					enemy.Fight(Player);
-					if (Player.GetStatus())
-					{
-						system("cls");
-						std::cout << "You Lose, in game you take: " << Player.GetGold() << " Gold";
-						break;
-					}
-				}
+				Player.Win(enemy);
+				Player.Doodge(enemy, Player);
 				break;
 			case 'l':
 				Player.BufforDebuff(enemy);
-				if (enemy.GetStatus())
-				{
-					system("cls");
-					Player.LvlUp();
-					Player.PlayerGold(enemy.GetGold());
-					break;
-				}
-				if (Player.Doodge() == false)
-				{
-					enemy.Fight(Player);
-					if (Player.GetStatus())
-					{
-						system("cls");
-						std::cout << "You Lose, in game you take: " << Player.GetGold() << " Gold";
-						break;
-					}
-				}
+				Player.Win(enemy);
+				Player.Doodge(enemy, Player);
 				break;
 			case 'h':
 				Player.UseHealthPotion();
-				if (Player.Doodge() == false)
-				{
-					enemy.Fight(Player);
-					if (Player.GetStatus())
-					{
-						system("cls");
-						std::cout << "You Lose, in game you take: " << Player.GetGold() << " Gold";
-						break;
-					}
-				}
+				Player.Doodge(enemy, Player);
 				break;
 			case 's':
 				Player.CheckPlayerStatus();

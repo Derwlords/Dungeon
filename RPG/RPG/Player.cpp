@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Spells.h"
+
 Player::Player()
 {
 	std::cout << "Write you Name: ";
@@ -17,7 +18,9 @@ Player::Player()
 	AllKilledMonsters = 0;
 	
 	
-
+	TemporaryDoodge = 0;
+	TemporaryDamage = 0;
+	TemporaryHP = 0;
 	
 }
 
@@ -94,18 +97,21 @@ void Player::Heal(int heal)
 	UI();
 }
 
-bool Player::Doodge()
+void Player::Doodge(BaseCharacter& Enemy, BaseCharacter& Player)
 {
-	int DoodgeTry = rand() % 200;
-	if (DoodgeTry > DoodgeChance)
+	if (Enemy.GetStatus() == false) 
 	{
-		return false;
-	}
-	else
-	{
-		std::cout << "\nYou doodge attack\n";
-		UI();
-		return true;
+		int DoodgeTry = rand() % 200;
+		if (DoodgeTry > DoodgeChance)
+		{
+			Enemy.Fight(Player);
+			Lose();
+		}
+		else
+		{
+			std::cout << "\nYou doodge attack\n";
+			UI();
+		}
 	}
 }
 
@@ -144,7 +150,7 @@ void Player::ChooseClass()
 
 		ClassSpells[0] = { "x2 damage",true,2,10,3,2,eDamageUp };
 		ClassSpells[1] = { "Up doodge",true,5,15,5,2,eDoodgeUp};
-		
+		ClassSpells[2] = { "scratch",false,50 * Damage,30,3,0,eAttackedSpell };
 		
 
 		
@@ -300,13 +306,43 @@ void Player::StopBufforDebuff(Spells& Spell, BaseCharacter& Attacked)
 
 void Player::AttackedSpell(Spells& Spell, BaseCharacter& Attacked)
 {
-
+	UI();
+	std::cout << symbol << " attack " << Attacked.GetSymbol() << "\nAnd dealt: " << Spell.BufforDebaf << " damage\n";
+	Attacked.SetHealth(Spell.BufforDebaf) ;
+	if (Attacked.GetHealth() <= 0)
+	{
+		
+		Attacked.Dead = true;
+	}
+	else
+	{
+		std::cout << Attacked.GetName() << " has " << Attacked.GetHealth() << " HP left\n\n\n";
+	}
+	Spell.CooldownTimer = Spell.Cooldown;
 }
 
-void Player::Fight(BaseCharacter& Attacked)
+void Player::Lose()
 {
-	Attack(Attacked);
+	if (GetStatus())
+	{
+		system("cls");
+		std::cout << "You Lose, in game you take: " << GetGold() << " Gold";
+		
+	}
+}
 
+void Player::Win(BaseCharacter& Enemy)
+{
+	if (Enemy.GetStatus())
+	{
+		system("cls");
+		LvlUp();
+		PlayerGold(Enemy.GetGold());
+	}
+}
+
+void Player::BuffStop(BaseCharacter& Attacked)
+{
 	for (int i = 0; i < 5; i++)
 	{
 		if (ClassSpells[i].BufforDebuffStop >= 1)
@@ -314,7 +350,7 @@ void Player::Fight(BaseCharacter& Attacked)
 			ClassSpells[i].BufforDebuffStop--;
 			if (ClassSpells[i].BufforDebuffStop == 0)
 			{
-				StopBufforDebuff(ClassSpells[i],Attacked);
+				StopBufforDebuff(ClassSpells[i], Attacked);
 			}
 		}
 		if (ClassSpells[i].CooldownTimer > 0)
@@ -322,6 +358,10 @@ void Player::Fight(BaseCharacter& Attacked)
 			ClassSpells[i].CooldownTimer--;
 		}
 	}
+}
+
+void Player::ManaRegeneration()
+{
 	if (Mana < MaxMana)
 	{
 		Mana += ManaRegen;
@@ -330,7 +370,15 @@ void Player::Fight(BaseCharacter& Attacked)
 			Mana = MaxMana;
 		}
 	}
-	if (Attacked.Dead == true)
+}
+
+void Player::Fight(BaseCharacter& Attacked)
+{
+	Attack(Attacked);
+
+	BuffStop(Attacked);
+	ManaRegeneration();
+	if (Attacked.Dead)
 	{
 		PlayerKilledgMonster++;
 		AllKilledMonsters++;

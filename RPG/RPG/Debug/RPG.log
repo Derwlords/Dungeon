@@ -1,2 +1,7 @@
-﻿  Player.cpp
-  RPG.vcxproj -> C:\Users\derwl\OneDrive\Documents\GitHub\Dungeon\RPG\Debug\RPG.exe
+﻿  Enemy.cpp
+  Player.cpp
+  Source.cpp
+C:\Users\derwl\Documents\GitHub\Dungeon\RPG\RPG\Source.cpp(7,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+C:\Users\derwl\Documents\GitHub\Dungeon\RPG\RPG\Source.cpp(8,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Создание кода...
+  RPG.vcxproj -> C:\Users\derwl\Documents\GitHub\Dungeon\RPG\Debug\RPG.exe

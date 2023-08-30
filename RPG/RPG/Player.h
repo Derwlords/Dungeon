@@ -17,7 +17,7 @@ public:
 	void Heal( int heal);
 
 	//Do latter
-	bool Doodge();
+	void  Doodge(BaseCharacter& Enemy, BaseCharacter& Player);
 	void ChooseClass();
 	int PlayerGold(int TakedGold);
 
@@ -27,6 +27,11 @@ public:
 	virtual void BufforDebuff( BaseCharacter& Attacked);
 	virtual void StopBufforDebuff(Spells& Spell, BaseCharacter& Attacked);
 	virtual void AttackedSpell(Spells& Spell, BaseCharacter& Attacked);
+
+
+	void Lose();
+	void Win(BaseCharacter& Enemy);
+	
 private:
 	int BaseHP;
 	int MaxHp;
@@ -50,4 +55,13 @@ private:
 	int TemporaryDamage;
 	int TemporaryDoodge;
 	int TemporaryHP;
+
+
+
+	void BuffStop(BaseCharacter& Attacked);
+
+	void ManaRegeneration();
+
+
+	
 };
