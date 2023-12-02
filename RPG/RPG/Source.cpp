@@ -3,6 +3,42 @@
 #include "time.h"
 
 
+void Action(Player& Player, Enemy& enemy)
+{
+	while (true)
+	{
+		char Action = Player.Action();
+		switch (Action)
+		{
+		case 'a':
+			Player.Fight(enemy);
+			Player.Win(enemy);
+			Player.Doodge(enemy, Player);
+			break;
+		case 'l':
+			Player.BufforDebuff(enemy);
+			Player.Win(enemy);
+			Player.Doodge(enemy, Player);
+			break;
+		case 'h':
+			Player.UseHealthPotion();
+			Player.Doodge(enemy, Player);
+			break;
+		case 's':
+			Player.CheckPlayerStatus();
+			break;
+		default:
+			break;
+		}
+
+		if (Player.GetStatus() || enemy.GetStatus())
+		{
+
+			break;
+		}
+	}
+}
+
 void main()
 {
 	srand(time(NULL));
@@ -12,39 +48,8 @@ void main()
 	{
 		Enemy enemy;
 		enemy.MonsterGenerateon(Player);
-		while (true)
-		{
-			
-			char Action = Player.Action() ;
-			switch (Action)
-			{
-			case 'a':
-				Player.Fight(enemy);
-				Player.Win(enemy);
-				Player.Doodge(enemy, Player);
-				break;
-			case 'l':
-				Player.BufforDebuff(enemy);
-				Player.Win(enemy);
-				Player.Doodge(enemy, Player);
-				break;
-			case 'h':
-				Player.UseHealthPotion();
-				Player.Doodge(enemy, Player);
-				break;
-			case 's':
-				Player.CheckPlayerStatus();
-				break;
-			default:
-				break;
-			}
-			
-			if (Player.GetStatus()||enemy.GetStatus())
-			{
-				
-				break;
-			}
-		}
+		
+		Action(Player, enemy);
 
 		if (Player.GetStatus())
 		{
