@@ -63,5 +63,8 @@ private:
 	void ManaRegeneration();
 
 
+protected:
+
+	virtual void UI() override;
 	
 };

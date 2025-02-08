@@ -9,7 +9,7 @@ BaseCharacter::BaseCharacter()
 
 void BaseCharacter::Attack(BaseCharacter& Attacked)
 {
-	UI();
+	
 	std::cout << symbol << " attack " << Attacked.symbol << "\nAnd dealt: " << Damage << " damage\n";
 	Attacked.HP -= Damage;
 	if (Attacked.HP <= 0)
@@ -44,7 +44,7 @@ void BaseCharacter::Attack(BaseCharacter& Attacked)
 void BaseCharacter::UI()
 {
 	std::cout << std::endl;
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 40; i++)
 	{
 		std::cout << "*";
 	}

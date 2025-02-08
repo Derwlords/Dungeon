@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Enemy.h"
 #include "Player.h"
 #include "time.h"
@@ -8,6 +10,7 @@ void Action(Player& Player, Enemy& enemy)
 	while (true)
 	{
 		char Action = Player.Action();
+		system("cls");
 		switch (Action)
 		{
 		case 'a':
@@ -54,7 +57,7 @@ void main()
 		if (Player.GetStatus())
 		{
 			std::cout << "\nYou want Restart?\n";
-			//TODO Do restart;
+			//TODO restart;
 			break;
 		}
 	}

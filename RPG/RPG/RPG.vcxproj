@@ -139,20 +139,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Armor.cpp" />
     <ClCompile Include="BaseCharacter.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Spells.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Armor.h" />
     <ClInclude Include="BaseCharacter.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Source.h" />
     <ClInclude Include="Spells.h" />
+    <ClInclude Include="Weapon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Enemys.json" />
+    <None Include="PlayerClassStats.json" />
+    <None Include="Skills.json" />
+    <None Include="Weapon.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

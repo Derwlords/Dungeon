@@ -58,9 +58,8 @@ void Enemy::MonsterGenerateon(Player& Player)
 	
 
 	UI();
-	std::cout << symbol << " " << Name << "\n";
-	std::cout << "Has " << Damage << " damage and " <<  HP  << " Health\n";
-	UI();
+	
+	
 		
 }
 
@@ -79,4 +78,12 @@ void Enemy::StopBufforDebuff(Spells& Spell, BaseCharacter& Attacked)
 
 void Enemy::AttackedSpell(Spells& Spell, BaseCharacter& Attacked)
 {
+}
+
+void Enemy::UI()
+{
+	BaseCharacter::UI();
+	std::cout << symbol << " " << Name << "\n";
+	std::cout << "Has " << Damage << " damage and " << HP << " Health\n";
+	BaseCharacter::UI();
 }

@@ -1,0 +1,54 @@
+{
+  "PlayerClass": [
+    {
+      "Name": "Rogue",
+      "HP": 6,
+      "HPScale": 3,
+      "HealPotion": 10,
+      "Damage": 6,
+      "DamageScale": 4,
+      "DoodgeChance": 10,
+      "DoodgeScale": 2,
+      "Mana": 100,
+      "ManaRegen": 5
+
+
+    },
+    {
+      "Name": "Knight",
+      "HP": 10,
+      "HPScale": 5,
+      "HealPotion": 15,
+      "Damage": 2,
+      "DamageScale": 3,
+      "DoodgeChance": 1,
+      "DoodgeScale": 1,
+      "Mana": 100,
+      "ManaRegen": 5
+    },
+    {
+      "Name": "Paladin",
+      "HP": 40,
+      "HPScale": 7,
+      "HealPotion": 35,
+      "Damage": 1,
+      "DamageScale": 2,
+      "DoodgeChance": 0,
+      "DoodgeScale": 0,
+      "Mana": 100,
+      "ManaRegen": 10
+    },
+    {
+      "Name": "Wizard",
+      "HP": 3,
+      "HPScale": 3,
+      "HealPotion": 10,
+      "Damage": 3,
+      "DamageScale": 1,
+      "DoodgeChance": 10,
+      "DoodgeScale": 2,
+      "Mana": 100,
+      "ManaRegen": 5
+    }
+  ]
+}

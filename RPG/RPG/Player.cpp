@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "Spells.h"
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 Player::Player()
 {
@@ -34,17 +36,17 @@ void Player::LvlUp()
 		PlayerKilledgMonster = 0;
 		if (LVL % 5 == 0)
 		{
-			DamageScale += DamageScale;
+			DamageScale += DamageScale; 
 			HealPotion += HealPotion;
 			HpScale += HpScale / 2 + HpScale;
 		}
 		if (LVL % 9 == 0)
 		{
-			DoodgeScale *= 2;
+			DoodgeScale += 2;
 		}
 		if (LVL % 3 == 0)
 		{
-			DoodgeChance += DoodgeScale;
+			DoodgeChance += 1;
 		}
 		MaxHp += HpScale * 2;
 		if (HP < (MaxHp / 2))
@@ -91,7 +93,7 @@ void Player::Heal(int heal)
 	HP += heal;
 	if (HP > MaxHp)
 	{
-	HP = MaxHp;
+		HP = MaxHp;
 	}
 	std::cout << "Health now: " << HP << std::endl;
 	UI();
@@ -118,86 +120,66 @@ void Player::Doodge(BaseCharacter& Enemy, BaseCharacter& Player)
 void Player::ChooseClass()
 {
 	
-	
-	
+	std::ifstream file("PlayerClassStats.json");
+	if (!file.is_open()) 
+	{
+		std::cerr << "Could not open the file!" << std::endl;
+		return;
+	}
+	nlohmann::json ClassStats;
+	file >> ClassStats;
 	int PlayerClass;
 	do 
 	{
-		std::cout << "Choose class:\nRogue (1)\nWar (2)\nKnight (3)\nPaladin (4)\n";
+		std::cout << "Choose class:\nRogue (1)\Wizard (2)\nKnight (3)\nPaladin (4)\n";
 		std::cin >> PlayerClass;
 
 	} while (PlayerClass < 1 && PlayerClass > 4);
 
+	std::string PlayerChoosedClass;
+
 	switch (PlayerClass)
 	{
 	case 1:
-		Class = "Rogue";
-
-		HpScale = 3;
-		HP = 3;
-		MaxHp = HP;
-		HealPotion = 10;
-
-		Damage = 2;
-		DamageScale = 3;
-		
-		DoodgeChance = 10;
-		DoodgeScale = 3;
-		
-		Mana = 100;
-		MaxMana = Mana;
-		ManaRegen = 5;
+		PlayerChoosedClass = "Rogue";
 
 		ClassSpells[0] = { "x2 damage",true,2,10,3,2,eDamageUp };
-		ClassSpells[1] = { "Up doodge",true,5,15,5,2,eDoodgeUp};
+		ClassSpells[1] = { "Up doodge",true,5,15,5,2,eDoodgeUp };
 		ClassSpells[2] = { "scratch",false,50 * Damage,30,3,0,eAttackedSpell };
-		
-
-		
 		break;
 	case 2:
-		Class = "War";
-
-		HpScale = 4;
-		HP = 4;
-		MaxHp = HP + HpScale * 2;
-		HealPotion = 8;
-		Damage = 3;
-		DamageScale = 3;
-
-		DoodgeChance = 4;
-		DoodgeScale = 2;
+		PlayerChoosedClass = "Wizard";
 		break;
 	case 3:
-		Class = "Knight";
-
-		HpScale = 5;
-		HP = 3;
-		MaxHp = HP;
-		HealPotion = 7;
-		Damage = 1;
-		DamageScale = 3;
-
-		DoodgeChance = 5;
-		DoodgeScale = 1;
+		PlayerChoosedClass = "Knight";
 		break;
 	case 4:
-		Class = "Paladin";
 
-		HpScale = 6;
-		HP = 15;
-		MaxHp = HP * 2;
-		HealPotionScale = 15;
+		PlayerChoosedClass = "Paladin";
 
-		Damage = 1;
-		DamageScale = 1;
-		
-		DoodgeChance = 1;
-		DoodgeScale = 1;
-	
-		
 		break;
 	}
+	
+	for (const auto& ClassState : ClassStats["PlayerClass"]) {
+		if (ClassState["Name"] == PlayerChoosedClass)
+		{
+			Class = ClassState["Name"];
+			HP = ClassState["HP"];
+			MaxHp = HP;
+			HpScale = ClassState["HPScale"];
+			HealPotion = ClassState["HealPotion"];
+			Damage = ClassState["Damage"];
+			DamageScale = ClassState["DamageScale"];
+			DoodgeChance = ClassState["DoodgeChance"];
+			DoodgeScale = ClassState["DoodgeScale"];
+			Mana = ClassState["Mana"];
+			MaxMana = Mana;
+			ManaRegen = ClassState["ManaRegen"];
+		}
+		
+	}
+
+
 }
 
 int Player::PlayerGold(int TakedGold)
@@ -209,6 +191,7 @@ int Player::PlayerGold(int TakedGold)
 
 void Player::CheckPlayerStatus()
 {
+	system("cls");
 	std::cout << "\nAttack: " << Damage << "\nMaxHP: " << MaxHp << "\nHP: " << HP << std::endl;
 	std::cout << "Heal Potion Heling: " << HealPotion << "\nDoodgeChance: " << DoodgeChance << std::endl;
 	std::cout << "Monster Killed now: " << PlayerKilledgMonster << std::endl;
@@ -370,6 +353,10 @@ void Player::ManaRegeneration()
 			Mana = MaxMana;
 		}
 	}
+}
+
+void Player::UI()
+{
 }
 
 void Player::Fight(BaseCharacter& Attacked)

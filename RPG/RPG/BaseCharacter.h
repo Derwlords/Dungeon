@@ -45,7 +45,7 @@ protected:
 	
 protected:
 
-	void UI();
+	virtual void UI();
 
 private:
 	

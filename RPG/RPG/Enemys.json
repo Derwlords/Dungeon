@@ -1,0 +1,41 @@
+{
+  "Enemys": [
+    {
+      "name": "OldSword",
+      "type": "Weapon",
+      "rank": "E",
+      "damage": 3,
+      "price": 20,
+      "mana": 0,
+      "CD": 0
+
+    },
+    {
+      "name": "Sword",
+      "type": "Weapon",
+      "rank": "B",
+      "damage": 3,
+      "price": 20,
+      "mana": 0,
+      "CD": 0
+    },
+    {
+      "name": "OldSword",
+      "type": "Weapon",
+      "rank": "E",
+      "damage": 3,
+      "price": 20,
+      "mana": 0,
+      "CD": 0
+    },
+    {
+      "name": "OldSword",
+      "type": "Weapon",
+      "rank": "E",
+      "damage": 3,
+      "price": 20,
+      "mana": 0,
+      "CD": 0
+    }
+  ]
+}

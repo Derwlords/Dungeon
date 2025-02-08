@@ -40,6 +40,9 @@ public:
 	virtual void BufforDebuff( BaseCharacter& Attacked);
 	virtual void StopBufforDebuff(Spells& Spell, BaseCharacter& Attacked);
 	virtual void AttackedSpell(Spells& Spell, BaseCharacter& Attacked);
+
+protected:
+	virtual void UI() override;
 private:
 	int id;
 	int GoldScale;
